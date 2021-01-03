@@ -8,6 +8,14 @@ app.get("/", (req, res) => res.json({ msg: "Welcome to Contact Keeper API" }));
 //Connect Database
 connectDB();
 
+//Init Middleware
+
+app.use(express.json({ extended: false }));
+
+app.get("/", (req, res) => {
+  res.send("Welcome to ContactKeeper API ...");
+});
+
 //Define Routes
 
 app.use("/api/users", require("./routes/users"));

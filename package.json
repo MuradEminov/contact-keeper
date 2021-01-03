@@ -4,7 +4,7 @@
   "description": "Contact manager app",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js", 
+    "start": "node server.js",
     "server": "nodemon server.js"
   },
   "keywords": [],
@@ -14,7 +14,7 @@
     "bcryptjs": "^2.4.3",
     "config": "^3.3.3",
     "express": "^4.17.1",
-    "express-validator": "^6.8.0",
+    "express-validator": "^6.9.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.8"
   },
