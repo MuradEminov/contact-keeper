@@ -10,7 +10,7 @@ connectDB();
 
 //Init Middleware
 
-app.use(express.json({ extended: false }));
+app.use(express.json({ extended: false })); // enables accepting the body data
 
 app.get("/", (req, res) => {
   res.send("Welcome to ContactKeeper API ...");
