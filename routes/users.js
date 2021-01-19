@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const { check, validationResult } = require("express-validator/check");
 const bcrypt = require("bcryptjs");
-const { exists } = require("../models/User");
 
 const User = require("../models/User");
 
@@ -28,23 +27,24 @@ router.post(
 
     const { name, email, password } = req.body;
     try {
-      let user = await User.findOne({ email });
+      let user = await User.findOne({ email }); // Check the DB to see if user email already exist
       if (user) {
         return res.status(400).json({ msg: "User already exists" }); // User already exists
       }
 
-      // If user doesnt exists, take user and set it to a new User
+      // If user doesnt exists, take user and set it to a new User:
       user = new User({
         name,
         email,
         password,
       });
 
+      // Encrypting the user Password and saving it to the DB:
       const salt = await bcrypt.genSalt(10);
 
       user.password = await bcrypt.hash(password, salt);
 
-      await user.save();
+      await user.save(); // Save to DB
 
       res.send("User saved");
     } catch (err) {
