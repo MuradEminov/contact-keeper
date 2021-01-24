@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { check, validationResult } = require("express-validator/check");
+const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const config = require("config");
 const { exists } = require("../models/User");
 
 const User = require("../models/User");
@@ -13,9 +15,9 @@ const User = require("../models/User");
 router.post(
   "/",
   [
-    check("name", "Please add name").not().isEmpty(),
-    check("email", "Please include a valid e-mail").isEmail(),
-    check(
+    body("name", "Please add name").not().isEmpty(),
+    body("email", "Please include a valid e-mail").isEmail(),
+    body(
       "password",
       "Please enter a password with 6 or more characters"
     ).isLength({ min: 6 }),
@@ -28,7 +30,7 @@ router.post(
 
     const { name, email, password } = req.body;
     try {
-      let user = await User.findOne({ email });
+      let user = await User.findOne({ email }); // mongoose's findOne() method
       if (user) {
         return res.status(400).json({ msg: "User already exists" }); // User already exists
       }
@@ -46,7 +48,28 @@ router.post(
 
       await user.save();
 
-      res.send("User saved");
+      //  res.send("User saved");
+
+      //JWT Payload:
+
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
+
+      // Sign the payload with JWT Token
+      jwt.sign(
+        payload,
+        config.get("jwtSecret"),
+        {
+          expiresIn: 360000,
+        },
+        (err, token) => {
+          if (err) throw err;
+          res.json({ token });
+        }
+      );
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");
