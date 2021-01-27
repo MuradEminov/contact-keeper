@@ -4,8 +4,6 @@ const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
-const { exists } = require("../models/User");
-
 const User = require("../models/User");
 
 // @route   POST api/users
@@ -58,7 +56,7 @@ router.post(
         },
       };
 
-      // Sign the payload with JWT Token
+      // Sign the payload with JWT Token. jwt.sign() method takes payload and secret as arguments and should return res.json({token}) as callback
       jwt.sign(
         payload,
         config.get("jwtSecret"),
