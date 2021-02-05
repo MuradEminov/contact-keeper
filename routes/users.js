@@ -52,7 +52,7 @@ router.post(
 
       const payload = {
         user: {
-          id: user.id,
+          id: user.id, // user id that comes from the database
         },
       };
 
