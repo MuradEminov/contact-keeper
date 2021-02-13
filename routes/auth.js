@@ -15,7 +15,7 @@ router.get("/", auth, async (req, res) => {
   // res.send("Get logged in user");
 
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user.id).select("-password"); // Mongoose findById() method to get the user with the given id,auth with password ommited
     res.json(user);
   } catch (err) {
     console.error(error.message);
