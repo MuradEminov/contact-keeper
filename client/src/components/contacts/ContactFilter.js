@@ -4,7 +4,7 @@ import ContactContext from "../../context/contact/contactContext";
 const ContactFilter = () => {
   const contactContext = useContext(ContactContext);
   const { filterContacts, clearFilter, filtered } = contactContext;
-  const text = useRef("");
+  const text = useRef(""); // hook up useRef to the DOM element
 
   useEffect(() => {
     if (filtered === null) {
@@ -25,7 +25,7 @@ const ContactFilter = () => {
       <input
         ref={text}
         type='text'
-        placeholder='Filter Contacts ...'
+        placeholder='Filter Contacts...'
         onChange={onChange}
       />
     </form>
