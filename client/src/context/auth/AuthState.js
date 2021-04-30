@@ -1,95 +1,51 @@
 import React, { useReducer } from 'react';
 import AuthContext from './authContext';
-import contactReducer from './contactReducer';
+import authReducer from './authReducer';
 import {
-  ADD_CONTACT,
-  DELETE_CONTACT,
-  SET_CURRENT,
-  CLEAR_CURRENT,
-  UPDATE_CONTACT,
-  FILTER_CONTACTS,
-  CLEAR_FILTER,
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
+  USER_LOADED,
+  AUTH_ERROR,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  LOGOUT,
+  CLEAR_ERRORS,
 } from '../types';
 
-const ContactState = (props) => {
+const AuthState = (props) => {
   const initialState = {
-    contacts: [
-      {
-        id: 1,
-        name: 'Jill Johnson',
-        email: 'jill@gmail.com',
-        phone: '111-111-111',
-        type: 'personal',
-      },
-      {
-        id: 2,
-        name: 'Sara Watson',
-        email: 'sara@gmail.com',
-        phone: '222-222-222',
-        type: 'personal',
-      },
-      {
-        id: 3,
-        name: 'Harry White',
-        email: 'harry@gmail.com',
-        phone: '333-333-333',
-        type: 'professional',
-      },
-    ],
-    current: null,
-    filtered: null,
+    token: localStorage.getItem('token'),
+    isAuthenticated: null,
+    loading: true,
+    error: null,
+    user: null,
   };
 
-  const [state, dispatch] = useReducer(contactReducer, initialState);
+  const [state, dispatch] = useReducer(authReducer, initialState);
 
-  //Add Contact
-  const addContact = (contact) => {
-    contact.id = uuidv4();
-    dispatch({ type: ADD_CONTACT, payload: contact });
-  };
-  //Delete Contact
-  const deleteContact = (id) => {
-    dispatch({ type: DELETE_CONTACT, payload: id });
-  };
-  //Set Current Contact
-  const setCurrent = (contact) => {
-    dispatch({ type: SET_CURRENT, payload: contact });
-  };
-  //Clear Current Contact
-  const clearCurrent = () => {
-    dispatch({ type: CLEAR_CURRENT });
-  };
-  //Update Contact
-  const updateContact = (contact) => {
-    dispatch({ type: UPDATE_CONTACT, payload: contact });
-  };
-  //Filter Contacts
-  const filterContacts = (text) => {
-    dispatch({ type: FILTER_CONTACTS, payload: text });
-  };
-  //Clear FIlter
-  const clearFilter = () => {
-    dispatch({ type: CLEAR_FILTER });
-  };
+  //Load User
+
+  //Register User
+
+  //Login User
+
+  //Logout
+
+  //Clear Errors
 
   return (
-    <ContactContext.Provider
+    <AuthContext.Provider
       value={{
-        contacts: state.contacts,
-        filtered: state.filtered,
-        addContact,
-        deleteContact,
-        current: state.current,
-        setCurrent,
-        clearCurrent,
-        updateContact,
-        filterContacts,
-        clearFilter,
+        token: state.token,
+        isAuthenticated: state.isAuthenticated,
+        loading: state.loading,
+        user: state.user,
+        error: state.error,
       }}
     >
       {props.children}
-    </ContactContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
-export default ContactState;
+export default AuthState;
